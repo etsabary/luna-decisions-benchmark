@@ -1,0 +1,15 @@
+{
+  "model_requested": "openai/gpt-6-luna-decisions",
+  "endpoint": "https://openrouter.ai/api/alpha/decisions",
+  "run_id": "luna_decisions_20261010",
+  "questions_sha256": "37a47f1ebc1d30ffb0a2bd45f13a733c3cdd47eb4ff29b4f759f127608e759ba",
+  "baseline_sha256": "44205d5110665123ab4a5535fa39511e48b68c2a3d4b2d95c16264d903d7a079",
+  "total_questions": 1000,
+  "timeout_seconds": 20,
+  "max_attempts_per_item": 2,
+  "workers": 4,
+  "max_http_attempts": 1200,
+  "cost_cap_usd": 0.25,
+  "selection": "Exact recorded historical IDs; one first response per item",
+  "latency_definition": "latency_ms includes response body; end_to_end_latency_ms includes retries and backoff; headers_latency_ms matches the historical timer boundary"
+}
