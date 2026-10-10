@@ -7,6 +7,7 @@ the external key and analyze_comparison.py; see METHODS.md.
 import csv
 import hashlib
 import json
+from datetime import datetime
 from collections import Counter
 from pathlib import Path
 from run_benchmark import MODEL, prepare_tasks, read_csv, parse_answer
@@ -59,6 +60,19 @@ def validate():
         m = json.loads((ROOT / manifest_path).read_text())
         assert m["questions_sha256"] == hashlib.sha256((ROOT / "data/questions_1000.csv").read_bytes()).hexdigest()
         assert m["baseline_sha256"] == hashlib.sha256((ROOT / "data/results_jev_1000.csv").read_bytes()).hexdigest()
+    diagnostic = [json.loads(s) for s in (ROOT / "data/slow_rate_diagnostic_attempts.jsonl").read_text().splitlines()]
+    manifest = json.loads((ROOT / "data/slow_rate_diagnostic_manifest.json").read_text())
+    assert len(diagnostic) == 2 * len(manifest["pairs"]) == 14
+    starts = [datetime.fromisoformat(r["timestamp_utc"]) for r in diagnostic]
+    assert min((b-a).total_seconds() for a,b in zip(starts,starts[1:])) >= 2.99
+    for pair, refused, control in zip(manifest["pairs"], diagnostic[::2], diagnostic[1::2]):
+        assert refused["item_id"] == pair["refused_item_id"] and control["item_id"] == pair["answered_control_item_id"]
+        assert refused["status"] == "error" and refused["http_status"] == 502 and refused["item_id"] in failures
+        assert control["status"] == "ok" and control["http_status"] == 200 and control["item_id"] not in failures
+        assert refused["family"] == control["family"] and refused["level"] == control["level"]
+        for row in [refused,control]:
+            assert row["request_payload_sha256"] == by_id[row["item_id"]]["request_payload_sha256"]
+        assert parse_answer(control["raw_response"])[0] == control["selected_option"]
     checksums = json.loads((ROOT / "data/checksums.json").read_text())
     for name, expected in checksums.items():
         assert hashlib.sha256((ROOT / name).read_bytes()).hexdigest() == expected, name
@@ -66,7 +80,7 @@ def validate():
     for path in (ROOT / "data").glob("*.csv"):
         with path.open(encoding="utf-8-sig") as f:
             assert not forbidden.intersection(next(csv.reader(f))), path
-    print("PASS: 1,000 exact inputs, frozen responses, 1,068 HTTP attempts, aggregate consistency, no public gold fields, all checksums")
+    print("PASS: 1,000 exact inputs, frozen responses, 1,068 primary/follow-up attempts + 14 slow diagnostic attempts, aggregate consistency, no public gold fields, all checksums")
 
 if __name__ == "__main__":
     validate()

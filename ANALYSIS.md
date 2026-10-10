@@ -144,3 +144,8 @@ This snapshot of Luna was effective on simpler bounded decisions and produced a 
 Useful follow-ups are a concurrent, single-provider rerun of both version-pinned models; a fresh hidden item set built from new templates; repeated identical calls to measure variance; a larger matched robustness set; and confidence thresholds fixed on development data before evaluation. Routing Jev and Luna in a combined cascade could be benchmarked separately, including escalation cost, error recovery and end-to-end latency.
 
 The benchmark covers synthetic text logic, not images, production classification, multilingual decisions, long-context retrieval or high-stakes real-world judgment. Public prompts and previous results also mean training exposure cannot be excluded. These limitations narrow the conclusion to the released artifacts and protocol.
+
+
+## Additional refusal diagnosis
+
+A slow matched-control test retained the same seven refusals while all seven controls worked. This argues against ordinary request-rate throttling; it does not establish the underlying cause. The input clusters, simple cases, low-confidence counterexamples and complete evidence are in [REFUSALS.md](REFUSALS.md). The primary scores are unchanged.

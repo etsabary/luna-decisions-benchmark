@@ -1,0 +1,45 @@
+{
+  "primary_refusals": 17,
+  "refused_by_family": {
+    "Deterministic fault diagnosis": 1,
+    "Forward conditional reasoning": 4,
+    "Object tracking through swaps": 1,
+    "One-to-one assignments": 6,
+    "Perspective and belief tracking": 1,
+    "Scheduling constraints": 2,
+    "Verbal spatial tracking": 2
+  },
+  "refused_by_level": {
+    "1": 4,
+    "2": 3,
+    "3": 3,
+    "4": 7
+  },
+  "refused_by_role": {
+    "core": 11,
+    "robustness": 6
+  },
+  "slow_diagnostic": {
+    "http_attempts": 14,
+    "minimum_observed_start_interval_seconds": 3.00137,
+    "groups": {
+      "originally_refused": {
+        "n": 7,
+        "http_status_counts": {
+          "502": 7
+        },
+        "valid": 0
+      },
+      "answered_control": {
+        "n": 7,
+        "http_status_counts": {
+          "200": 7
+        },
+        "valid": 7
+      }
+    },
+    "sum_reported_cost_usd": 0.00022630000000000003,
+    "attempts_with_reported_cost": 7,
+    "scope": "Separate post-run diagnostic; seven refused questions and seven matched controls; no change to primary scores"
+  }
+}

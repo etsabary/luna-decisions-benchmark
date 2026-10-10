@@ -1,0 +1,52 @@
+{
+  "model_requested": "openai/gpt-6-luna-decisions",
+  "endpoint": "https://openrouter.ai/api/alpha/decisions",
+  "workers": 1,
+  "max_attempts_per_item": 1,
+  "minimum_request_start_interval_seconds": 3,
+  "selection": "Lexicographically first refused ID per family; answered control matched by family and level, preferring role/variant then nearest context word count and ID",
+  "pairs": [
+    {
+      "family": "Deterministic fault diagnosis",
+      "level": "4",
+      "refused_item_id": "J003177",
+      "answered_control_item_id": "J003165"
+    },
+    {
+      "family": "Forward conditional reasoning",
+      "level": "3",
+      "refused_item_id": "J000194",
+      "answered_control_item_id": "J000193"
+    },
+    {
+      "family": "Object tracking through swaps",
+      "level": "1",
+      "refused_item_id": "J001462",
+      "answered_control_item_id": "J001445"
+    },
+    {
+      "family": "One-to-one assignments",
+      "level": "1",
+      "refused_item_id": "J000906",
+      "answered_control_item_id": "J000909"
+    },
+    {
+      "family": "Perspective and belief tracking",
+      "level": "3",
+      "refused_item_id": "J002153",
+      "answered_control_item_id": "J002141"
+    },
+    {
+      "family": "Scheduling constraints",
+      "level": "4",
+      "refused_item_id": "J000853",
+      "answered_control_item_id": "J000870"
+    },
+    {
+      "family": "Verbal spatial tracking",
+      "level": "1",
+      "refused_item_id": "J001818",
+      "answered_control_item_id": "J001820"
+    }
+  ]
+}

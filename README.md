@@ -94,3 +94,8 @@ The original benchmark is [etsabary/jev-deterministic-benchmark](https://github.
 OpenAI documents its [Decisions API](https://developers.openai.com/api/docs/guides/decisions). This run used [OpenRouter's Decisions endpoint](https://openrouter.ai/docs/api/api-reference/alphadecisions/submit-a-decisions-request) and [GPT-6 Luna Decisions model](https://openrouter.ai/openai/gpt-6-luna-decisions), with the Jev-compatible native choice packet rather than the direct OpenAI endpoint.
 
 Independent community benchmark; no affiliation with OpenAI, OpenRouter or Jev/TypeSafe. Repository code, documentation and benchmark artifacts are shared under the [MIT license](LICENSE).
+
+
+## Additional check: request rate and refusal patterns
+
+A later test alternated seven refused questions with seven answered controls of the same family and level, using one worker and at least three seconds between request starts. **All seven refused again; all seven controls worked.** This argues against ordinary rate throttling. Refusals include simple unchanged-state questions and occur at all four levels. The model-versus-adapter cause remains unknown; see [the diagnostic evidence and hypotheses](REFUSALS.md#slow-request-rate-control-test-additional-experiment). Primary results remain unchanged.

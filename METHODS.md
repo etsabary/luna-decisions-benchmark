@@ -90,3 +90,8 @@ The model alias can change; capture the returned version on every future run. Pu
 ## Limits of inference
 
 The old baseline spans three providers and does not reveal the underlying Jev snapshot for all alias responses. The runs occurred on different dates and do not control load or routing. The benchmark includes dependent variants, small per-family samples, and a development subset. It measures one response per item, not generation variance. It uses synthetic, English, text-only problems and public prompts; external validity and possible training exposure remain unmeasured. These limits should accompany any reuse of the headline scores.
+
+
+## Separate slow-rate diagnosis
+
+`diagnose_refusals.py` performs the seven-family, matched-control test documented in [REFUSALS.md](REFUSALS.md). It is dry-run by default; `--execute` uses one worker and at least three seconds between starts, one call per selected item, and no retries. The manifest records the deterministic selection rule and paired IDs. `analyze_diagnostics.py` reproduces the key-independent content-group counts and timing/status summary. This post-run experiment is reported separately and cannot modify the original score.

@@ -1,6 +1,7 @@
 {
   "analysis/confidence_comparison.csv": "5b8d3886bf15a05d157c6f06e7ea20275fdf537118e3ffa692aa7066929954ee",
   "analysis/family_comparison.csv": "2e60aa247fad57c6a47d25e4472429706a9a08b8f3575e42dcfcfa31dbdda5a7",
+  "analysis/refusal_diagnostics.json": "e0af8a928fd360201b9c100157e3581d643fae99f60a942faf25986024b95f71",
   "analysis/summary.json": "8252a10f54e735b4875e3a27e27cc6c23a890efbf38ca83a3c1d0135af180103",
   "data/attempts_luna_1000.jsonl": "a4e85c46db9038350016acbf96e44014edf8adee93f93190fbb8a38ade2a00c9",
   "data/attempts_luna_refusal_followup.jsonl": "f8b61b47a1706c96c8cb927d4a01e6c2f78c5da2712e46bb1e5e3afaf99efbd9",
@@ -12,6 +13,8 @@
   "data/results_jev_1000.csv": "44205d5110665123ab4a5535fa39511e48b68c2a3d4b2d95c16264d903d7a079",
   "data/results_luna_1000.csv": "ceddda96c842bd9c46bb1754a3dae3d93cbd27445b7f0b3627ee44cc5f1483bb",
   "data/results_luna_refusal_followup.csv": "dec80a5e956f05b3b3c7e5d0c7fc440bb75737fbe836608f649cdf5ace5d089e",
+  "data/slow_rate_diagnostic_attempts.jsonl": "a5188759152b28319a14cfdf04c528d61bb22cd21d4fa28c72cdca828d624638",
+  "data/slow_rate_diagnostic_manifest.json": "0184e3579f707052377ada482dfba5834c4785100060c0092c44766575a15588",
   "figures/confidence_and_calibration.png": "143c4868f86b4868e83cd65720bf4ff8551ee3227bb3a646427993a74e195049",
   "figures/confidence_and_calibration.svg": "5e4206fdf469d257f2e321271b447902f9132744c51cdf169f5b2c1f06a4aa15",
   "figures/family_comparison.png": "6be5a706005a8db8a843b02ac134956214eb6518bb560d42231d24e9f76a1cac",

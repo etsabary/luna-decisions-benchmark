@@ -342,4 +342,73 @@ No refusal attempt returned billing information. Missing usage/cost must not be 
 
 for name, content in [("README.md", README), ("ANALYSIS.md", ANALYSIS), ("METHODS.md", METHODS), ("REFUSALS.md", REFUSALS)]:
     (ROOT / name).write_text(content)
+
+diagnostics = json.loads((ROOT / "analysis/refusal_diagnostics.json").read_text())
+rate_text = """
+
+## Slow request-rate control test (additional experiment)
+
+To investigate rate limiting, a later diagnostic used one worker, no retries,
+and at least three seconds between request starts (at most 20 starts/minute).
+It selected the lexicographically first refused item from each of the seven
+affected families and alternated each with a previously answered item of the
+same family and difficulty level. Control selection preferred the same role and
+variant, then the closest context word count; it used no gold answers.
+
+**All seven previously refused items returned the same HTTP 502 refusal again;
+all seven controls returned valid decisions**, with the same dated Luna snapshot
+as the primary successful responses. The original payloads were unchanged.
+This makes ordinary request-rate throttling less plausible in this session,
+but does not exclude a request-dependent backend bug, cached errors or other
+undisclosed provider behavior.
+
+Paid requests can still encounter upstream rate limits. OpenRouter's
+[rate-limit documentation](https://github.com/OpenRouterTeam/docs/blob/main/api_reference/limits.mdx)
+describes provider-side throttling; its
+[error documentation](https://github.com/OpenRouterTeam/docs/blob/main/api_reference/errors-and-debugging.mdx)
+normally distinguishes HTTP 429 rate limits from HTTP 502 provider failures.
+These general error categories alone cannot diagnose this alpha endpoint.
+
+The diagnostic is separate from the primary run and the three-attempt follow-up.
+It adds one further refusal attempt for seven of the original 17 items and seven
+successful control calls; it changes neither primary choices nor primary scores.
+See `data/slow_rate_diagnostic_manifest.json`,
+`data/slow_rate_diagnostic_attempts.jsonl`,
+`analysis/refusal_diagnostics.json` and `diagnose_refusals.py`.
+
+## What stands out in the question content
+
+- Six refusals are one-to-one locker assignments and four are forward implication
+  chains. Those two families account for 10/17 refusals, while other questions
+  using the same templates succeeded.
+- Refusals occur at every difficulty level: four at level 1, three at level 2,
+  three at level 3 and seven at level 4. Difficulty alone does not explain them.
+- Some are especially simple: J001462 asks about a token unaffected by either
+  swap, J001818 describes only turns without movement, and J002153 queries a
+  person's belief even though that person observes none of the later moves.
+  These involve retaining an unchanged state, but many other refused items do
+  not, so that is a possible sub-pattern rather than a unifying explanation.
+- Two pairs preserve the same underlying problem: J000218/J000225 add irrelevant
+  background text, and J000853/J000854 rotate option order. Both members of each
+  pair refused. Harmless wording or option-position differences did not recover
+  those cases in the original run.
+- Successful primary decisions included reported confidence as low as 0.02;
+  94 successful decisions had confidence below 0.1. A blanket low-confidence
+  cutoff therefore does not explain why these items produced errors.
+
+There is no obvious common sensitive subject. The leading working hypothesis is
+input-dependent model or native-decision adapter behavior. Internal abstention,
+validation behavior, and cached or deterministic backend errors remain possible;
+the available responses cannot distinguish them. This is a hypothesis, not an
+identified defect or proof of a safety policy. A direct OpenAI comparison or an
+independently recorded later rerun would be useful next tests.
+"""
+with (ROOT / "REFUSALS.md").open("a") as f:
+    f.write(rate_text)
+with (ROOT / "ANALYSIS.md").open("a") as f:
+    f.write("\n\n## Additional refusal diagnosis\n\nA slow matched-control test retained the same seven refusals while all seven controls worked. This argues against ordinary request-rate throttling; it does not establish the underlying cause. The input clusters, simple cases, low-confidence counterexamples and complete evidence are in [REFUSALS.md](REFUSALS.md). The primary scores are unchanged.\n")
+with (ROOT / "README.md").open("a") as f:
+    f.write("\n\n## Additional check: request rate and refusal patterns\n\nA later test alternated seven refused questions with seven answered controls of the same family and level, using one worker and at least three seconds between request starts. **All seven refused again; all seven controls worked.** This argues against ordinary rate throttling. Refusals include simple unchanged-state questions and occur at all four levels. The model-versus-adapter cause remains unknown; see [the diagnostic evidence and hypotheses](REFUSALS.md#slow-request-rate-control-test-additional-experiment). Primary results remain unchanged.\n")
+with (ROOT / "METHODS.md").open("a") as f:
+    f.write("\n\n## Separate slow-rate diagnosis\n\n`diagnose_refusals.py` performs the seven-family, matched-control test documented in [REFUSALS.md](REFUSALS.md). It is dry-run by default; `--execute` uses one worker and at least three seconds between starts, one call per selected item, and no retries. The manifest records the deterministic selection rule and paired IDs. `analyze_diagnostics.py` reproduces the key-independent content-group counts and timing/status summary. This post-run experiment is reported separately and cannot modify the original score.\n")
 print("Rebuilt README.md, ANALYSIS.md, METHODS.md and REFUSALS.md")
