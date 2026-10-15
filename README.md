@@ -1,5 +1,11 @@
 # Luna Decisions vs Jev: the same 1,000 questions
 
+## Expanded reference: 1,136 questions, 14 October 2026
+
+The [expanded report](extension_136/README.md) adds 136 questions to complete candidate checks, option rotations and changed-evidence pairs. Jev 1.13 scores **910/1,136 (80.1%)**; GPT-6 Luna Decisions scores **687/1,136 (60.5%)**, with 23 unanswered items. These totals include dependent diagnostic variants. The original 1,000-question results below remain unchanged.
+
+The new tests strengthen the evidence for Jev's rule-based decisions and clarify its weaknesses: supplying candidate solutions still leaves substantial verification errors, and three complete option-rotation panels change semantic choice. The report includes all 25 reasoning families, confidence coverage, exact model snapshots and dates, [graphics](extension_136/abilities_baseline.png), and a frozen input/response manifest for future releases. No Jev 1.14 results enter this baseline.
+
 An independent comparison of OpenAI's **GPT-6 Luna Decisions** and the recorded **Jev September 22, 2026 provider mix**, using the exact same five-option deterministic logic questions, instructions, facts and option order.
 
 **On this benchmark, Jev scored 817/1,000 (81.7%); Luna scored 612/1,000 (61.2%).** Luna answered 983 questions and left 17 unanswered with API refusal errors. Among answered questions, Luna's accuracy was 62.3%. Its high-confidence decisions were much stronger: **199/201 correct at confidence ≥0.8**, covering 20.1% of the original set.

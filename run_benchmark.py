@@ -188,6 +188,9 @@ def run(args):
     if selected_ids is not None:
         binding["selection"] = "Explicit follow-up subset; original run retained separately"
         binding["selected_item_ids"] = sorted(selected_ids)
+    expected_model = getattr(args, "expected_returned_model", None)
+    if expected_model:
+        binding["required_returned_model"] = expected_model
     if manifest_path.exists():
         if json.loads(manifest_path.read_text()) != binding:
             raise ValueError("Existing run has a different configuration; use a new output directory")
@@ -209,6 +212,8 @@ def run(args):
     for r in previous:
         if r["item_id"] not in by_id or r["model_requested"] != args.model or r["run_id"] != args.run_id or r["request_payload_sha256"] != by_id[r["item_id"]]["request_payload_sha256"]:
             raise ValueError("Saved response identity or input mismatch")
+        if expected_model and r["status"] == "ok" and r["model_returned"] != expected_model:
+            raise ValueError("Saved response does not match required model snapshot")
     done = {r["item_id"] for r in previous}
     remaining = [t for t in tasks if t["item_id"] not in done][:args.batch_size]
     attempts = read_jsonl(args.out / "attempts.jsonl")
@@ -257,6 +262,9 @@ def run(args):
         error = final["error_message"]
         if final["http_status"] == 200 and not error:
             try:
+                if expected_model and raw.get("model") != expected_model:
+                    stopped.set()
+                    raise ValueError(f"VERSION GUARD: expected {expected_model}; returned {raw.get('model')}")
                 choice, probs, confidence = parse_answer(raw)
                 status = "ok"
             except ValueError as exc:
@@ -307,6 +315,7 @@ def main():
     parser.add_argument("--questions", type=Path, default=ROOT / "data/questions_1000.csv")
     parser.add_argument("--baseline", type=Path, default=ROOT / "data/results_jev_1000.csv")
     parser.add_argument("--model", default=MODEL)
+    parser.add_argument("--expected-returned-model", help="Stop if a successful response identifies another snapshot")
     parser.add_argument("--run-id", default="luna_decisions_20261010")
     parser.add_argument("--out", type=Path, default=ROOT / "runs/luna_1000")
     parser.add_argument("--env-file", type=Path)

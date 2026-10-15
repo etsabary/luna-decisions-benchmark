@@ -1,0 +1,2 @@
+-r requirements-plots.txt
+markdown>=3.5

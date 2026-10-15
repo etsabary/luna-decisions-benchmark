@@ -412,3 +412,8 @@ with (ROOT / "README.md").open("a") as f:
 with (ROOT / "METHODS.md").open("a") as f:
     f.write("\n\n## Separate slow-rate diagnosis\n\n`diagnose_refusals.py` performs the seven-family, matched-control test documented in [REFUSALS.md](REFUSALS.md). It is dry-run by default; `--execute` uses one worker and at least three seconds between starts, one call per selected item, and no retries. The manifest records the deterministic selection rule and paired IDs. `analyze_diagnostics.py` reproduces the key-independent content-group counts and timing/status summary. This post-run experiment is reported separately and cannot modify the original score.\n")
 print("Rebuilt README.md, ANALYSIS.md, METHODS.md and REFUSALS.md")
+
+# Preserve discoverability of the separately frozen extension on regeneration.
+if (ROOT / "extension_136/README.md").exists():
+    with (ROOT / "README.md").open("a") as f:
+        f.write("\n\n## Expanded 1,136-question reference\n\nThe [October 14 extension](extension_136/README.md) completes matched diagnostic panels, preserves the original 1,000 results, and binds the full reference for future releases. Jev 1.13 scores 910/1,136; GPT-6 Luna Decisions scores 687/1,136, including 23 unanswered items. See the report for dependent-question limits, snapshots, dates and graphics.\n")

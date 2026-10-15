@@ -1,5 +1,9 @@
 # Protocol and reproduction
 
+## October 14 diagnostic extension
+
+The separately reported [136-question extension](extension_136/README.md) freezes the reference at 1,136 exact prompts. `run_extension.py` selects additions using metadata and historical coverage only, then uses explicit model IDs and exact returned-snapshot guards. Original questions, responses and analysis artifacts remain unchanged. `analyze_extension.py` preserves strict-parser output and separately extracts valid choices from three Jev responses whose probabilities sum to 0.99. These choices are scored; their distributions remain flagged. `validate_extension.py` checks the public evidence without exposing the external gold key. A separately retained 256-item Jev 1.13 recheck measures repeatability and never replaces reference responses.
+
 ## Frozen historical selection
 
 The original question bank is `JEV_Deterministic_Decision_Benchmark_v1`. We replay exactly the 1,000 distinct IDs present in the published Jev results: 100 development smoke questions plus the first 900 questions from the original shuffled evaluation plan. The historical run consists of a 100-item smoke run and 300-, 200- and 400-item evaluation batches, all on September 22, 2026.
